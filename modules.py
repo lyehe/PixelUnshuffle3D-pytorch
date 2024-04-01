@@ -24,14 +24,14 @@ class PixelShuffle3d(nn.Module):
             raise ValueError(
                 f"Input channels must be divisible by scale^3, but got {in_channels}"
             )
-        out_depth = z * scale
-        out_height = x * scale
-        out_width = y * scale
+        out_z = z * scale
+        out_x = x * scale
+        out_y = y * scale
         input_view = input.contiguous().view(
             batch, out_channels, scale, scale, scale, z, x, y
         )
         output = input_view.permute(0, 1, 5, 2, 6, 3, 7, 4).contiguous()
-        return output.view(batch, out_channels, out_depth, out_height, out_width)
+        return output.view(batch, out_channels, out_z, out_x, out_y)
 
 
 class PixelUnshuffle3d(nn.Module):
